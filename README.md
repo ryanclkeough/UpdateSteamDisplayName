@@ -1,7 +1,5 @@
 # UpdateSteamName
-When running this application, be able to update your steam name to whatever new name you would like, without needing to navigate to the location necessary to update it. My goal is to also have it keep a json file that contains your last used name incase you want to fast swap between the 2
+Update your steam name to whatever new name you would like, without needing to navigate to the location necessary to update it. My goal is to also have it keep a json file that contains your last used name incase you want to fast swap between the 2
 
-Note: You may need to change the browser that this script uses to open Steam. I am using Firefox, and if for whatever reason you are fearful of a great browser, then make sure to update the code to handle Firefox
-
-Current Issues:
-* When opening the browser through automation, tested browsers (Firefox, Chrome) lock down. This causes users to not be logged in. Without getting around this, we can't change the users DisplayName
+1. Make sure you have the correct browser installed on your computer. If not, update what browser is being opened
+2. Make sure you are already logged into Steam in your chosen browser, or else the script will not be able to navigate to the correct location
