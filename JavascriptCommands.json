@@ -1,5 +1,5 @@
 {
-	"ProfileURL" : [
+	"GoToProfileURL" : [
 		"const imageElement = document.querySelector(\".user_avatar > img:nth-child(1)\");",
 		"if (imageElement) {",
 		"  const hyperlink = imageElement.parentElement;",
@@ -13,7 +13,7 @@
 		"}"
 	],
 
-	"SaveProfileEdit" : [
+	"SaveChanges" : [
 		"const button  = document.querySelector(\"button.DialogButton:nth-child(1)\");",
 		"if (button) {",
 		"  button.click();",

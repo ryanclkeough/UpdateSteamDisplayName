@@ -4,19 +4,19 @@ import pyperclip
 import os
 import time
 
-NEW_DISPLAY_NAME = "other"
+NEW_DISPLAY_NAME = "TemplateName"
 
 def main():
 	OpenBrowser("Firefox")
 	OpenSteamWebpage()
 
 	scriptDirectory = os.path.dirname(__file__)
-	jsonDirectory = os.path.join(scriptDirectory, "JavascriptCommands.json")
+	jsonDirectory = os.path.join(scriptDirectory, "JavaScriptCommands.json")
 	with open(jsonDirectory) as json_file:
 		jsonData = json.load(json_file)
 
-	OpenSteamProfile(jsonData)
-	OpenProfileEdit()
+	OpenProfile(jsonData)
+	OpenEditProfile()
 	EditProfileName()
 	SaveProfileEdits(jsonData)
 
@@ -37,12 +37,12 @@ def OpenSteamWebpage():
 	keyboard.press_and_release("enter")
 	time.sleep(3)
 
-def OpenSteamProfile(jsonData):
+def OpenProfile(jsonData):
 	keyboard.send("f12")
 	time.sleep(0.5)
 	keyboard.send("ctrl+shift+k")
 	time.sleep(0.5)
-	profileUrlJsCode = jsonData["ProfileURL"]
+	profileUrlJsCode = jsonData["GoToProfileURL"]
 	profileUrlJsCode = "\n".join(profileUrlJsCode)
 	pyperclip.copy(profileUrlJsCode)
 	keyboard.send("ctrl+v")
@@ -50,7 +50,7 @@ def OpenSteamProfile(jsonData):
 	keyboard.press_and_release("enter")
 	time.sleep(3)
 
-def OpenProfileEdit():
+def OpenEditProfile():
 	keyboard.send("f12")
 	keyboard.send("alt+d")
 	time.sleep(0.2)
@@ -72,7 +72,7 @@ def EditProfileName():
 	time.sleep(0.2)
 
 def SaveProfileEdits(jsonData):
-	saveProfileJsCode = jsonData["SaveProfileEdit"]
+	saveProfileJsCode = jsonData["SaveChanges"]
 	saveProfileJsCode = "\n".join(saveProfileJsCode)
 	pyperclip.copy(saveProfileJsCode)
 	keyboard.send("ctrl+v")
