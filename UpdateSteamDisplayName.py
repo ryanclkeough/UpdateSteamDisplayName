@@ -4,10 +4,12 @@ import pyperclip
 import os
 import time
 
-NEW_DISPLAY_NAME = "TemplateName"
+BROWSER = "Firefox"
+DELAY_BETWEEN_KEYS = 0.2
+TIMEOUT_TO_LOAD_PAGE = 3
 
 def main():
-	OpenBrowser("Firefox")
+	OpenBrowser()
 	OpenSteamWebpage()
 
 	scriptDirectory = os.path.dirname(__file__)
@@ -22,61 +24,61 @@ def main():
 
 	keyboard.send("ctrl+w")
 
-def OpenBrowser(browser):
+def OpenBrowser():
 	keyboard.send("win")
-	time.sleep(0.2)
-	keyboard.write(browser)
-	time.sleep(0.2)
+	time.sleep(DELAY_BETWEEN_KEYS)
+	keyboard.write(BROWSER)
+	time.sleep(DELAY_BETWEEN_KEYS)
 	keyboard.press_and_release("enter")
-	time.sleep(3)
+	time.sleep(TIMEOUT_TO_LOAD_PAGE)
 
 def OpenSteamWebpage():
 	steamURL = "https://steamcommunity.com"
 	keyboard.send("alt+d")
 	keyboard.write(steamURL)
 	keyboard.press_and_release("enter")
-	time.sleep(3)
+	time.sleep(TIMEOUT_TO_LOAD_PAGE)
 
 def OpenProfile(jsonData):
 	keyboard.send("f12")
-	time.sleep(0.5)
+	time.sleep(DELAY_BETWEEN_KEYS)
 	keyboard.send("ctrl+shift+k")
-	time.sleep(0.5)
+	time.sleep(DELAY_BETWEEN_KEYS)
 	profileUrlJsCode = jsonData["GoToProfileURL"]
 	profileUrlJsCode = "\n".join(profileUrlJsCode)
 	pyperclip.copy(profileUrlJsCode)
 	keyboard.send("ctrl+v")
 	time.sleep(0.2)
 	keyboard.press_and_release("enter")
-	time.sleep(3)
+	time.sleep(TIMEOUT_TO_LOAD_PAGE)
 
 def OpenEditProfile():
 	keyboard.send("f12")
 	keyboard.send("alt+d")
-	time.sleep(0.2)
+	time.sleep(DELAY_BETWEEN_KEYS)
 	keyboard.send("right arrow")
-	time.sleep(0.2)
+	time.sleep(DELAY_BETWEEN_KEYS)
 	keyboard.write("edit/info")
 	keyboard.press_and_release("enter")
-	time.sleep(3)
+	time.sleep(TIMEOUT_TO_LOAD_PAGE)
 
 def EditProfileName():
 	keyboard.send("f12")
-	time.sleep(0.2)
+	time.sleep(DELAY_BETWEEN_KEYS)
 	keyboard.send("ctrl+shift+k")
 	profileNameJavascript = GetProfileNameJavascript(NEW_DISPLAY_NAME)
 	pyperclip.copy(profileNameJavascript)
 	keyboard.send("ctrl+v")
-	time.sleep(0.2)
+	time.sleep(DELAY_BETWEEN_KEYS)
 	keyboard.press_and_release("enter")
-	time.sleep(0.2)
+	time.sleep(DELAY_BETWEEN_KEYS)
 
 def SaveProfileEdits(jsonData):
 	saveProfileJsCode = jsonData["SaveChanges"]
 	saveProfileJsCode = "\n".join(saveProfileJsCode)
 	pyperclip.copy(saveProfileJsCode)
 	keyboard.send("ctrl+v")
-	time.sleep(0.2)
+	time.sleep(DELAY_BETWEEN_KEYS)
 	keyboard.press_and_release("enter")
 
 def GetProfileNameJavascript(newName):
