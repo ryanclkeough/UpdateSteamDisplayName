@@ -1,46 +1,56 @@
 import keyboard
-import time
-
-from bs4 import BeautifulSoup
-import requests
-
 import json
 import pyperclip
 import os
-import test
+import time
+
+NEW_DISPLAY_NAME = "other"
 
 def main():
-	newName = "Json"
+	OpenBrowser("Firefox")
+	OpenSteamWebpage()
 
+	scriptDirectory = os.path.dirname(__file__)
+	jsonDirectory = os.path.join(scriptDirectory, "JavascriptCommands.json")
+	with open(jsonDirectory) as json_file:
+		jsonData = json.load(json_file)
+
+	OpenSteamProfile(jsonData)
+	OpenProfileEdit()
+	EditProfileName()
+	SaveProfileEdits(jsonData)
+
+	keyboard.send("ctrl+w")
+
+def OpenBrowser(browser):
 	keyboard.send("win")
 	time.sleep(0.2)
-	keyboard.write("Firefox") # Update this line for a different browser
+	keyboard.write(browser)
 	time.sleep(0.2)
 	keyboard.press_and_release("enter")
-	time.sleep(3) # Wait for page to load
+	time.sleep(3)
 
+def OpenSteamWebpage():
 	steamURL = "https://steamcommunity.com"
 	keyboard.send("alt+d")
 	keyboard.write(steamURL)
 	keyboard.press_and_release("enter")
-	time.sleep(3) # Wait for page to load
+	time.sleep(3)
 
-	scriptDirectory = os.path.dirname(__file__)
+def OpenSteamProfile(jsonData):
 	keyboard.send("f12")
 	time.sleep(0.5)
 	keyboard.send("ctrl+shift+k")
 	time.sleep(0.5)
-	jsonDirectory = os.path.join(scriptDirectory, "JavascriptCommands.json")
-	with open(jsonDirectory) as json_file:
-		jsonData = json.load(json_file)
 	profileUrlJsCode = jsonData["ProfileURL"]
 	profileUrlJsCode = "\n".join(profileUrlJsCode)
 	pyperclip.copy(profileUrlJsCode)
 	keyboard.send("ctrl+v")
 	time.sleep(0.2)
 	keyboard.press_and_release("enter")
-	time.sleep(3) # Wait for page to load
+	time.sleep(3)
 
+def OpenProfileEdit():
 	keyboard.send("f12")
 	keyboard.send("alt+d")
 	time.sleep(0.2)
@@ -48,25 +58,26 @@ def main():
 	time.sleep(0.2)
 	keyboard.write("edit/info")
 	keyboard.press_and_release("enter")
-	time.sleep(3) # Wait for page to load
+	time.sleep(3)
 
+def EditProfileName():
 	keyboard.send("f12")
 	time.sleep(0.2)
 	keyboard.send("ctrl+shift+k")
-	profileNameJavascript = GetProfileNameJavascript(newName)
+	profileNameJavascript = GetProfileNameJavascript(NEW_DISPLAY_NAME)
 	pyperclip.copy(profileNameJavascript)
 	keyboard.send("ctrl+v")
 	time.sleep(0.2)
 	keyboard.press_and_release("enter")
 	time.sleep(0.2)
+
+def SaveProfileEdits(jsonData):
 	saveProfileJsCode = jsonData["SaveProfileEdit"]
 	saveProfileJsCode = "\n".join(saveProfileJsCode)
 	pyperclip.copy(saveProfileJsCode)
 	keyboard.send("ctrl+v")
 	time.sleep(0.2)
 	keyboard.press_and_release("enter")
-
-	keyboard.send("ctrl+w")
 
 def GetProfileNameJavascript(newName):
 	profileNameJavascript = [
