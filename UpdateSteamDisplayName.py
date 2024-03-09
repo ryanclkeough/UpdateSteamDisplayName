@@ -4,11 +4,13 @@ import time
 from bs4 import BeautifulSoup
 import requests
 
+import json
 import pyperclip
 import os
+import test
 
 def main():
-	newName = "JohnIsMyName"
+	newName = "Json"
 
 	keyboard.send("win")
 	time.sleep(0.2)
@@ -24,18 +26,22 @@ def main():
 	time.sleep(3) # Wait for page to load
 
 	scriptDirectory = os.path.dirname(__file__)
-	javascriptDirectory = os.path.join(scriptDirectory, "ProfileURL.js")
 	keyboard.send("f12")
-	time.sleep(0.2)
+	time.sleep(0.5)
 	keyboard.send("ctrl+shift+k")
-	time.sleep(0.2)
-	with open(javascriptDirectory, "r") as file:
-		js_code = file.read()
-	pyperclip.copy(js_code)
+	time.sleep(0.5)
+	jsonDirectory = os.path.join(scriptDirectory, "JavascriptCommands.json")
+	with open(jsonDirectory) as json_file:
+		jsonData = json.load(json_file)
+	profileUrlJsCode = jsonData["ProfileURL"]
+	profileUrlJsCode = "\n".join(profileUrlJsCode)
+	pyperclip.copy(profileUrlJsCode)
 	keyboard.send("ctrl+v")
 	time.sleep(0.2)
 	keyboard.press_and_release("enter")
+	time.sleep(3) # Wait for page to load
 
+	keyboard.send("f12")
 	keyboard.send("alt+d")
 	time.sleep(0.2)
 	keyboard.send("right arrow")
@@ -47,44 +53,36 @@ def main():
 	keyboard.send("f12")
 	time.sleep(0.2)
 	keyboard.send("ctrl+shift+k")
+	profileNameJavascript = GetProfileNameJavascript(newName)
+	pyperclip.copy(profileNameJavascript)
+	keyboard.send("ctrl+v")
 	time.sleep(0.2)
-	javascriptDirectory = os.path.join(scriptDirectory, "ProfileName.js")
-	with open(javascriptDirectory, "r") as file:
-		js_code = file.read()
-	pyperclip.copy(js_code)
+	keyboard.press_and_release("enter")
+	time.sleep(0.2)
+	saveProfileJsCode = jsonData["SaveProfileEdit"]
+	saveProfileJsCode = "\n".join(saveProfileJsCode)
+	pyperclip.copy(saveProfileJsCode)
 	keyboard.send("ctrl+v")
 	time.sleep(0.2)
 	keyboard.press_and_release("enter")
 
-	LoopTabbing(timesToLoop=39)
-	keyboard.send("ctrl+a")
-	keyboard.write(newName)
-	time.sleep(1) # Wait for page to load
-
-	LoopTabbing(timesToLoop=7)
-	keyboard.press_and_release("enter")
-	time.sleep(1) # Wait for page to load
-
 	keyboard.send("ctrl+w")
 
-def LoopTabbing(timesToLoop):
-	for iteration in range(timesToLoop):
-		keyboard.send("tab")
+def GetProfileNameJavascript(newName):
+	profileNameJavascript = [
+		"const inputElement = document.querySelector(\"div.DialogInputLabelGroup:nth-child(1) > label:nth-child(1) > div:nth-child(2) > input:nth-child(1)\");",
+		"if (inputElement) {",
+		"  const inputValue = inputElement.value;",
+		"  console.log(\"The current value in the input element is:\", inputValue);",
+		"  inputElement.value = \"" + newName + "\";",
+		"} else {",
+		"  console.error(\"Input element not found with the provided CSS selector.\");",
+		"}"
+	]
 
+	profileNameJavascript = "\n".join(profileNameJavascript)
 
-def GetAllWebsiteLinks(url):
-	try:
-		response = requests.get(url)
-		response.raise_for_status()  # Raise an exception for non-200 status codes
-
-		soup = BeautifulSoup(response.content, 'html.parser')
-		links = [link.get('href') for link in soup.find_all('a')]
-		
-		return links
-
-	except requests.exceptions.RequestException as e:
-		print(f"An error occurred while fetching the webpage: {e}")
-		return []  # Return an empty list on errors
+	return profileNameJavascript
 
 if __name__ == '__main__':
   main()

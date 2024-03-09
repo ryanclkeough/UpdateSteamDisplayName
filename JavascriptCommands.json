@@ -1,0 +1,24 @@
+{
+	"ProfileURL" : [
+		"const imageElement = document.querySelector(\".user_avatar > img:nth-child(1)\");",
+		"if (imageElement) {",
+		"  const hyperlink = imageElement.parentElement;",
+		"  if (hyperlink && hyperlink.tagName === \"A\") {",
+		"    hyperlink.click();",
+		"  } else {",
+		"    console.warn(\"The image element doesn't have a parent anchor tag (hyperlink).\");",
+		"  }",
+		"} else {",
+		"  console.error(\"Input element not found with the provided CSS selector.\");",
+		"}"
+	],
+
+	"SaveProfileEdit" : [
+		"const button  = document.querySelector(\"button.DialogButton:nth-child(1)\");",
+		"if (button) {",
+		"  button.click();",
+		"} else {",
+		"  console.error(\"Button with class 'DialogButton' and first child not found.\");",
+		"}"
+	]
+}
